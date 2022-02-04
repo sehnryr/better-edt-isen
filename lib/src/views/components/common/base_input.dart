@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:edt_isen/src/common/login.dart';
 
 class BaseInput extends StatefulWidget {
   final TextEditingController controller;
   final Iterable<String> autofillHints;
+  final void Function(String)? onChanged;
   final String labelText;
   final String errorText;
   final Icon prefixIcon;
@@ -16,6 +18,7 @@ class BaseInput extends StatefulWidget {
     required this.labelText,
     required this.errorText,
     required this.prefixIcon,
+    this.onChanged,
     this.isPassword = false,
     this.error = false,
   }) : super(key: key);
@@ -34,6 +37,7 @@ class _BaseInputState extends State<BaseInput> {
       width: double.infinity,
       height: 90.0,
       child: TextFormField(
+        onChanged: widget.onChanged,
         focusNode: _focusNode,
         autofillHints: widget.autofillHints,
         controller: widget.controller,
@@ -43,7 +47,7 @@ class _BaseInputState extends State<BaseInput> {
           labelText: widget.labelText,
           errorText: widget.error ? widget.errorText : null,
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: borderRadius,
           ),
           prefixIcon: widget.prefixIcon,
           suffixIcon: widget.isPassword

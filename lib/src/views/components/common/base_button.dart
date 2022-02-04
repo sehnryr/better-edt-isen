@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:edt_isen/src/common/login.dart';
 
-class LoginButton extends StatelessWidget {
+class BaseButton extends StatelessWidget {
+  final String text;
   final void Function() onPressed;
 
-  const LoginButton({
+  const BaseButton({
     Key? key,
+    required this.text,
     required this.onPressed,
   }) : super(key: key);
 
@@ -17,11 +20,11 @@ class LoginButton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: borderRadius,
           ),
         ),
         child: Text(
-          "CONNEXION",
+          text,
           style: Theme.of(context).textTheme.button,
         ),
       ),

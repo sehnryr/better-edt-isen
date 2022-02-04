@@ -1,3 +1,4 @@
+import 'package:edt_isen/src/common/login.dart';
 import 'package:flutter/material.dart';
 
 class Footer extends StatelessWidget {
@@ -10,7 +11,7 @@ class Footer extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: 50,
-      padding: const EdgeInsets.symmetric(horizontal: 30.0),
+      padding: padding,
       child: Center(
           child: Text(
             text,
