@@ -12,9 +12,9 @@ class Requests {
     Map<String, String> cookies = await getStoredCookies(getHostname(url));
     return http.get(
       Uri.parse(url),
-      headers: {
+      headers: cookies.isNotEmpty ? {
         'Cookie': _stringifyCookies(cookies),
-      },
+      } : null,
     );
   }
 
@@ -24,9 +24,9 @@ class Requests {
     return http.post(
       Uri.parse(url),
       body: body,
-      headers: {
+      headers: cookies.isNotEmpty ? {
         'Cookie': _stringifyCookies(cookies),
-      },
+      } : null,
     );
   }
 
