@@ -1,0 +1,1 @@
+class WidgetNotFound implements Exception {}
