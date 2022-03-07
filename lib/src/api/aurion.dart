@@ -46,16 +46,21 @@ class Aurion {
           "password": password,
         },
       );
-      if (response.headers.containsKey("Cookie")) {
+      if (!response.headers.containsKey("set-cookie")) {
         return false;
       }
-      Requests.setStoredCookies(hostname, response.headers["Cookie"]!);
+      Requests.setStoredCookies(hostname, response.headers["set-cookie"]!);
     }
 
-    // Saving everything in secure storage
-    SecureStorage.setName(_fetchName(response));
-    SecureStorage.setUsername(username);
-    SecureStorage.setPassword(password);
+    response = await Requests.get("https://web.isen-ouest.fr/webAurion/");
+    try {
+      // Saving everything in secure storage
+      SecureStorage.setName(_fetchName(response));
+      SecureStorage.setUsername(username);
+      SecureStorage.setPassword(password);
+    } catch (_) {
+      return false;
+    }
 
     return true;
   }
@@ -73,20 +78,15 @@ class Aurion {
 
   static Future<void> fetchSchedule() async {
     Response response =
-    await Requests.get("https://web.isen-ouest.fr/webAurion/");
+        await Requests.get("https://web.isen-ouest.fr/webAurion/");
+    DateTime lastDate = DateTime(DateTime.now().year, DateTime.june, 30);
 
-    // get a range of [-5:5] weeks from present day
-    int timeStampStart = DateTime
-        .now()
-        .subtract(Duration(days: 35 + DateTime
-        .now()
-        .weekday))
+    // get a range of [-1:lastDate] weeks from present day
+    int timeStampStart = DateTime.now()
+        .subtract(Duration(days: 1 * 7 + DateTime.now().weekday))
         .millisecondsSinceEpoch;
-    int timeStampEnd = DateTime
-        .now()
-        .add(Duration(days: 35 - DateTime
-        .now()
-        .weekday - 1))
+    int timeStampEnd = lastDate
+        .add(Duration(days: 7 - lastDate.weekday))
         .millisecondsSinceEpoch;
 
     // Set the hellish parameters
@@ -116,8 +116,7 @@ class Aurion {
           .firstMatch(response.body)!
           .group(1)!;
       SecureStorage.setSchedule(schedule);
-    }
-    catch (e) {
+    } catch (e) {
       throw WidgetNotFound();
     }
   }

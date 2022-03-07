@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class LostPasswordAppbar extends StatelessWidget
     implements PreferredSizeWidget {
-  final AppBar appBar = AppBar();
 
   LostPasswordAppbar({Key? key}) : super(key: key);
 
@@ -20,5 +19,5 @@ class LostPasswordAppbar extends StatelessWidget
   }
 
   @override
-  Size get preferredSize => Size.fromHeight(appBar.preferredSize.height);
+  Size get preferredSize => Size.fromHeight(AppBar().preferredSize.height);
 }
